@@ -12,6 +12,7 @@ __pycache__/
 
 .hf_token
 hf_token.txt
+repo_structure.yaml
 
 # Distribution / packaging
 .Python
