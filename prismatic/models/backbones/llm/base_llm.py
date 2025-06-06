@@ -28,6 +28,8 @@ from prismatic.overwatch import initialize_overwatch
 
 from peft import get_peft_model
 
+import time
+
 
 # Suppress HF Deprecation Warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
@@ -134,11 +136,19 @@ class HFCausalLLMBackbone(LLMBackbone, ABC):
 
         # [Contract] `inference_mode` means we're loading from a pretrained checkpoint; no need to load base weights!
         else:
+            # start_time = time.time()
             overwatch.info(f"Building empty [bold]{llm_family}[/] LLM from [underline]`{hf_hub_path}`[/]", ctx_level=1)
+
             llm_config = AutoConfig.from_pretrained(hf_hub_path, token=hf_token)
+            # config_load_time = time.time()
+            # overwatch.info(f"Config loaded in {config_load_time - start_time:.2f} seconds", ctx_level=2)
+
             self.llm = llm_cls._from_config(llm_config)
+            # model_build_time = time.time()
+            # overwatch.info(f"Model built in {model_build_time - config_load_time:.2f} seconds", ctx_level=2)
 
             if enable_peft == True:
+                overwatch.info("enable_peft", ctx_level=2)
                 self.llm = get_peft_model(self.llm, lora_config)
 
         # Lightweight Handling (with extended explanation) for setting some LLM Parameters
@@ -146,6 +156,7 @@ class HFCausalLLMBackbone(LLMBackbone, ABC):
         #
         #      Reference: https://discuss.huggingface.co/t/what-is-the-purpose-of-use-cache-in-decoder/958
         self.llm.config.use_cache = False if not self.inference_mode else True
+        overwatch.info(f"self.llm.config.use_cache: {self.llm.config.use_cache}", ctx_level=2)
 
         #   => Turns out that when gradient checkpointing is on and the underlying LLM has no "trainable" parameters
         #      (requires_grad is False), backprop will fail; setting `enable_input_requires_grad()` registers a new
