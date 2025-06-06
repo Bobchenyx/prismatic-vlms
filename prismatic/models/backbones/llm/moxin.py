@@ -18,8 +18,11 @@ from prismatic.models.backbones.llm.prompting import PromptBuilder, PurePromptBu
 # fmt: off
 MOXIN_MODELS = {
     # === Base Moxin ===
+    # "moxin-7b-pure": {
+    #     "llm_family": "moxin", "llm_cls": MistralForCausalLM, "hf_hub_path": "moxin-org/moxin-llm-7b"
+    # },
     "moxin-7b-pure": {
-        "llm_family": "moxin", "llm_cls": MistralForCausalLM, "hf_hub_path": "moxin-org/moxin-llm-7b"
+        "llm_family": "moxin", "llm_cls": MistralForCausalLM, "hf_hub_path": "moxin-org/moxin-instruct-7b"
     },
 
     # === Moxin Instruct ===
