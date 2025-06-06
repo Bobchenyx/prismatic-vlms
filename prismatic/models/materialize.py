@@ -10,7 +10,7 @@ from typing import Optional, Tuple
 from transformers import PreTrainedTokenizerBase
 
 from prismatic.models.backbones.llm import LLMBackbone, MoxinLLMBackbone
-from prismatic.models.backbones.vision import VisionBackbone, DinoSigLIPViTBackbone
+from prismatic.models.backbones.vision import VisionBackbone, DinoSigLIPViTBackbone, ImageTransform
 from prismatic.models.vlms import PrismaticVLM
 
 # === Registries =>> Maps ID --> {cls(), kwargs} :: Different Registries for Vision Backbones, LLM Backbones, VLMs ===
