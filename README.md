@@ -1,4 +1,4 @@
-# VLM for wwc
+# VLM Inference Demo
 
 ## Installation
 
